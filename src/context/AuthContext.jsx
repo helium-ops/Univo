@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import { profiles, setProfiles } from "../data/users" 
 
 export const AuthContext = createContext(null);
 
@@ -17,11 +18,12 @@ export function AuthProvider({ children }) {
        alert("Email already used");
       }
       else{
-        const newUser = {email, password};
+        const newUser = {email, password, pages: [], toDo: []};
         users.push(newUser);
-        localStorage.setItem('users', JSON.stringify(users));
         localStorage.setItem('currentUserEmail', newUser.email);
         setLoggedIn(true);
+        setProfiles([...profiles, newUser]);
+        localStorage.setItem('profiles', JSON.stringify(profiles));
       }
     }
 
