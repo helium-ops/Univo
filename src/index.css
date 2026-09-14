@@ -29,3 +29,9 @@ body {
     --color-black-text: #FFFCFC;
     --color-black-borders: #242222;
 } 
+
+@layer components{
+    .btn{
+        @apply h-[49%] w-[29%] rounded-[0.8vh] bg-white-accent text-black-text font-bold
+    }
+}

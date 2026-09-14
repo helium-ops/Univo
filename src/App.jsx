@@ -3,7 +3,6 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import Auth from './pages/Auth'
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
-import ProfileProvider from "./data/Users";
 
 
 

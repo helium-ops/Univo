@@ -1,66 +1,95 @@
-import { createContext, useContext, useState } from 'react';
-import { profiles, setProfiles } from "../data/users" 
+import { createContext, useContext, useState } from "react";
 
 export const AuthContext = createContext(null);
 
+
 export function AuthProvider({ children }) {
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [signIn, setSignIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [signIn, setSignIn] = useState(true);
 
-    const [user, setUser] = useState(
-        localStorage.getItem('currentUserEmail') ? {email: localStorage.getItem('currentUserEmail')} : null
-    );
+  const [user, setUser] = useState(() => {
+  const email = localStorage.getItem("currentUserEmail");
+  const users = JSON.parse(localStorage.getItem("users") || "[]");
 
+  return users.find((user) => user.email === email) || null;
+});
+  
+  const users = JSON.parse(localStorage.getItem("users") || "[]");
+ function signUp(email, password) {
+  
 
-    function signUp(email, password) {
-      const users = JSON.parse(localStorage.getItem('users') || '[]')
-      if(users.find(user => user.email === email)){
-       alert("Email already used");
-      }
-      else{
-        const newUser = {email, password, pages: [], toDo: []};
-        users.push(newUser);
-        localStorage.setItem('currentUserEmail', newUser.email);
-        setLoggedIn(true);
-        setProfiles([...profiles, newUser]);
-        localStorage.setItem('profiles', JSON.stringify(profiles));
-      }
-    }
+  if (users.find((user) => user.email === email)) {
+    alert("Email already used");
+  } else {
+    const newUser = {
+      email,
+      password,
+      pages: [
+        {
+          name: "Untitled",
+          content: "",
+          id: Date.now()
+        }
+      ],
+      toDo: []
+    };
 
-    
+    users.push(newUser);
 
-    function login(email, password){
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const mainUser = users.find((user)=> user.email === email && user.password === password);
-        setLoggedIn(true);
-        localStorage.setItem('currentUserEmail', mainUser.email);
-    }
+    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("currentUserEmail", newUser.email);
 
-    function logout(){
-        setUser(null);
-        setLoggedIn(false);
-        localStorage.removeItem('currentUserEmail');
-    }
+    setUser(newUser); // ← important
+    setLoggedIn(true);
+  }
+}
 
-    return (
-        <AuthContext.Provider
-            value={{
-                loggedIn,
-                setLoggedIn,
-                signIn,
-                setSignIn,
-                user,
-                setUser,
-                signUp,
-                login,
-                logout
-            }}
-        >
-            {children}
-        </AuthContext.Provider>
-    );
+  function login(email, password) {
+  
+
+  const mainUser = users.find(
+    (user) =>
+      user.email === email &&
+      user.password === password
+  );
+
+  if (!mainUser) {
+    alert("Invalid email or password");
+    return;
+  }
+
+  setUser(mainUser); // ← important
+  setLoggedIn(true);
+
+  localStorage.setItem(
+    "currentUserEmail",
+    mainUser.email
+  );
+}
+
+function logout(){
+   setLoggedIn(false);
+}
+  return (
+    <AuthContext.Provider
+      value={{
+        loggedIn,
+        setLoggedIn,
+        signIn,
+        setSignIn,
+        user,
+        setUser,
+        signUp,
+        login,
+        users,
+        logout
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
-    return useContext(AuthContext);
+  return useContext(AuthContext);
 }
