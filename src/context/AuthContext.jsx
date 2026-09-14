@@ -4,17 +4,18 @@ export const AuthContext = createContext(null);
 
 
 export function AuthProvider({ children }) {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(localStorage.getItem('currentUserEmail') ? true : false);
   const [signIn, setSignIn] = useState(true);
+  const email = localStorage.getItem("currentUserEmail");
+  const users = JSON.parse(localStorage.getItem("users") ? localStorage.getItem("users") : "[]");
 
   const [user, setUser] = useState(() => {
-  const email = localStorage.getItem("currentUserEmail");
-  const users = JSON.parse(localStorage.getItem("users") || "[]");
+  
 
-  return users.find((user) => user.email === email) || null;
+  return email ? users.find((user) => user.email === email) : null;
 });
   
-  const users = JSON.parse(localStorage.getItem("users") ? localStorage.getItem("users") : "[]");
+  
  function signUp(email, password) {
   
 

@@ -25,7 +25,7 @@ export default function Container(){
                         <h3 className='font-bold mt-1 mb-4'>Keep you and your friends on track.</h3>
                     </header>
                     <div>
-                        <button className="bg-white-accent w-35 h-10 rounded-[0.5vh] text-black-text font-semibold hover:opacity-[0.9] ">Help them out</button>
+                        <button className="bg-white-accent w-35 h-10 rounded-[0.5vh] text-black-text font-semibold hover:opacity-[0.9] " onClick={()=> {window.location.href = 'https://github.com/helium-ops/Univo'}}>Help them out</button>
                     </div>
                 </div>
             </section>
