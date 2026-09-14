@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
   return users.find((user) => user.email === email) || null;
 });
   
-  const users = JSON.parse(localStorage.getItem("users") || "[]");
+  const users = JSON.parse(localStorage.getItem("users") ? localStorage.getItem("users") : "[]");
  function signUp(email, password) {
   
 
@@ -46,6 +46,7 @@ export function AuthProvider({ children }) {
 
   function login(email, password) {
   
+  if(localStorage.getItem("users")){
 
   const mainUser = users.find(
     (user) =>
@@ -65,11 +66,17 @@ export function AuthProvider({ children }) {
     "currentUserEmail",
     mainUser.email
   );
+} else {
+  alert('No users yet!')
+}
 }
 
-function logout(){
-   setLoggedIn(false);
-}
+function logout() {
+  setLoggedIn(false);
+  setUser(null);
+  localStorage.removeItem("currentUserEmail");
+} 
+
   return (
     <AuthContext.Provider
       value={{

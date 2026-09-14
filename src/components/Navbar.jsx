@@ -10,7 +10,7 @@ export default function Navbar(){
        
     }, [user]);
     return(
-       <aside className="flex justify-around items-start flex-col gap-9 h-[88.38%] w-[14.1%] fixed left-2 bg-white-surface pr-0 text-white-text">
+       <aside className="flex justify-around items-start flex-col gap-6 h-[88.38%] w-[14.1%] fixed left-2 bg-white-surface pr-0 text-white-text">
         <section className="h-[15%] w-100% flex justify-around items-start flex-col">
             <h1 className="font-bold text-3xl">Recents</h1>
             <div className="overflow-auto">
