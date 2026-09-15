@@ -1,40 +1,97 @@
+
 import { useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-export default function Navbar(){
-    const { users } = useAuth();
-    const user = users.find((user) => user.email === localStorage.getItem('currentUserEmail'));
-    const pages = user.pages;
-    const todos = user.toDo;
-    useEffect(()=>{ 
-       
-    }, [user]);
-    return(
-       <aside className="flex justify-around items-start flex-col gap-6 h-[88.38%] w-[14.1%] fixed left-2 bg-white-surface pr-0 text-white-text">
-        <section className="h-[15%] w-100% flex justify-around items-start flex-col">
-            <h1 className="font-bold text-3xl">Recents</h1>
-            <div className="overflow-auto">
-            {pages.map((page)=><h1>{page.name}</h1>)}
-            {todos.map((todo)=><h1>{todos.name}</h1>)}
-            </div>
-            
-        </section>
-        <section className="h-[14%] flex justify-around items-start flex-col gap-4 w-full relative">
-            <h1 className="font-bold text-3xl">Pages</h1>
-            <div className='overflow-auto'>
-            {pages.map((page)=><h1>{page.name}</h1>)}
-            </div>
-            <button className=" absolute bottom-2 h-[39%] mb-[-23%] text-[90%] w-[55%] font-semibold text-1xl rounded-[0.8vh] bg-white-accent text-black-text text-bold hover:opacity-[0.9]">New page</button>
+export default function Navbar() {
+    const { users, setUsers } = useAuth();
 
-        </section>
-        <section className='h-[14%] flex justify-around items-start flex-col gap-4 w-full relative'>
-            <h1 className='font-bold text-3xl'>Todos</h1>
-            <div>
-            {todos.map((todo)=><h1>{todos.name}</h1>)}
-            </div>
-            <button className='absolute bottom-2 h-[40%] mb-[-23%] text-[90%] w-[63%] font-semibold text-1xl rounded-[0.8vh] bg-white-accent text-black-text text-bold hover:opacity-[0.9]'>Make a todo list</button>
-        </section>
-        <p>{localStorage.getItem('currentUserEmail')}</p>
-       </aside>
-    )
+    const user = users.find(
+        (user) => user.email === localStorage.getItem('currentUserEmail')
+    );
+
+    const pages = user?.pages ?? [];
+    const todos = user?.toDo ?? [];
+
+    return (
+        <aside className="flex justify-around items-start flex-col gap-6 h-[88.38%] w-[14.1%] fixed left-2 bg-white-surface pr-0 text-white-text">
+
+            
+            <section className="h-[15%] w-full flex justify-around items-start flex-col">
+                <h1 className="font-bold text-3xl">
+                    Recents
+                </h1>
+
+                <div className="overflow-auto">
+                    
+
+                    {todos.map((todo) => (
+                        <h1 key={todo.id}>
+                            {todo.name}
+                        </h1>
+                    ))}
+                </div>
+            </section>
+
+
+           
+            <section className="h-[14%] flex justify-around items-start flex-col gap-4 w-full relative">
+
+                <h1 className="font-bold text-3xl">
+                    Pages
+                </h1>
+
+                <div className="overflow-auto flex flex-col">
+                    {pages.map((page) => (
+                        <NavLink key={page.id} to={`/page/${page.id}`}>
+                            {page.name}
+                        </NavLink>
+                    ))}
+                </div>
+
+                <button className="absolute bottom-2 h-[39%] mb-[-23%] text-[90%] w-[55%] font-semibold text-1xl rounded-[0.8vh] bg-white-accent text-black-text hover:opacity-[0.9]"
+                onClick={()=>{
+                    user.pages = [...user.pages, {
+                        name: 'Untitled',
+                        content: '',
+                        id: Date.now(),
+                        settingToggle: false
+                    }]
+                localStorage.setItem('users', JSON.stringify(users))}}>
+                    New page
+                </button>
+
+            </section>
+
+
+            {/* Todos */}
+            <section className="h-[14%] flex justify-around items-start flex-col gap-4 w-full relative">
+
+                <h1 className="font-bold text-3xl">
+                    Todos
+                </h1>
+
+                <div className="overflow-auto flex flex-col">
+                    {todos.map((todo) => (
+                        <h1 key={todo.id}>
+                            {todo.name}
+                        </h1>
+                    ))}
+                </div>
+
+                <button className="absolute bottom-2 h-[40%] mb-[-23%] text-[90%] w-[63%] font-semibold text-1xl rounded-[0.8vh] bg-white-accent text-black-text hover:opacity-[0.9]">
+                    Make a todo list
+                </button>
+
+            </section>
+
+
+            {/* Current user */}
+            <NavLink to='/'>
+                {localStorage.getItem('currentUserEmail')}
+            </NavLink>
+
+        </aside>
+    );
 }
+

@@ -7,7 +7,7 @@ export function AuthProvider({ children }) {
   const [loggedIn, setLoggedIn] = useState(localStorage.getItem('currentUserEmail') ? true : false);
   const [signIn, setSignIn] = useState(true);
   const email = localStorage.getItem("currentUserEmail");
-  const users = JSON.parse(localStorage.getItem("users") ? localStorage.getItem("users") : "[]");
+  const [users, setUsers] = useState(JSON.parse(localStorage.getItem("users") ? localStorage.getItem("users") : "[]"));
 
   const [user, setUser] = useState(() => {
   
@@ -29,13 +29,14 @@ export function AuthProvider({ children }) {
         {
           name: "Untitled",
           content: "",
-          id: Date.now()
+          id: Date.now(),
+          settingToggle: false
         }
       ],
       toDo: []
     };
 
-    users.push(newUser);
+    setUsers([...users, newUser]);
 
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("currentUserEmail", newUser.email);
@@ -90,6 +91,7 @@ function logout() {
         signUp,
         login,
         users,
+        setUsers,
         logout
       }}
     >
