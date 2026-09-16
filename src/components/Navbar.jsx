@@ -2,15 +2,16 @@
 import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { usePage } from '../context/PageContext';
 
 export default function Navbar() {
     const { users, setUsers } = useAuth();
+    const { pages, createPage, editPage, removePage} = usePage();
 
     const user = users.find(
         (user) => user.email === localStorage.getItem('currentUserEmail')
     );
 
-    const pages = user?.pages ?? [];
     const todos = user?.toDo ?? [];
 
     return (
@@ -50,14 +51,7 @@ export default function Navbar() {
                 </div>
 
                 <button className="absolute bottom-2 h-[39%] mb-[-23%] text-[90%] w-[55%] font-semibold text-1xl rounded-[0.8vh] bg-white-accent text-black-text hover:opacity-[0.9]"
-                onClick={()=>{
-                    user.pages = [...user.pages, {
-                        name: 'Untitled',
-                        content: '',
-                        id: Date.now(),
-                        settingToggle: false
-                    }]
-                localStorage.setItem('users', JSON.stringify(users))}}>
+                onClick={()=>createPage()}>
                     New page
                 </button>
 

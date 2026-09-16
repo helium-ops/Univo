@@ -6,7 +6,7 @@ export const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [loggedIn, setLoggedIn] = useState(localStorage.getItem('currentUserEmail') ? true : false);
   const [signIn, setSignIn] = useState(true);
-  const email = localStorage.getItem("currentUserEmail");
+  const email = localStorage.getItem("currentUserEmail") ? localStorage.getItem("currentUserEmail") : '  ';
   const [users, setUsers] = useState(JSON.parse(localStorage.getItem("users") ? localStorage.getItem("users") : "[]"));
 
   const [user, setUser] = useState(() => {
@@ -36,9 +36,9 @@ export function AuthProvider({ children }) {
       toDo: []
     };
 
-    setUsers([...users, newUser]);
-
-    localStorage.setItem("users", JSON.stringify(users));
+    const updatedUsers = [...users, newUser];
+    setUsers(updatedUsers);
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
     localStorage.setItem("currentUserEmail", newUser.email);
 
     setUser(newUser); // ← important
@@ -101,5 +101,6 @@ function logout() {
 }
 
 export function useAuth() {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  return context;
 }

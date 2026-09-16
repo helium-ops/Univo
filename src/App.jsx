@@ -1,5 +1,6 @@
 import Header from "./components/Header";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { PageProvider } from './context/PageContext';
 import Auth from "./pages/Auth";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
@@ -32,9 +33,11 @@ function Wrapper() {
 function App() {
   return (
     <AuthProvider>
+      <PageProvider>
       <BrowserRouter>
         <Wrapper />
       </BrowserRouter>
+      </PageProvider>
     </AuthProvider>
   );
 }

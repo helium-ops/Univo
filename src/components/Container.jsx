@@ -1,13 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { NavLink, useNavigate } from 'react-router-dom';
 
 export default function Container() {
   const user = JSON.parse(localStorage.getItem("users")).find(
-    (g) => g.email === localStorage.getItem("currentUserEmail"),
-  );
-  const displayItem = user.pages.reduce((latest, page) =>
-    page.id > latest.id ? page : latest,
+  (g) => g.email === localStorage.getItem("currentUserEmail"),
+);
+   const displayItem = user.pages.reduce((latest, page) =>
+    page.id > latest.id ? page : latest
   );
   return (
     <main className="fixed right-2 flex justify-start items-start flex-col h-full w-[85.9%] px-9 py-7">
@@ -23,7 +22,7 @@ export default function Container() {
               className="text-2xl text-black-text"
             />
           </div>
-         <h1 className="absolute bottom-2 font-bold p-1 ">{displayItem.name}</h1>
+         <h1 className="absolute bottom-2 font-bold p-1 ">{displayItem?.name}</h1>
         </div>
           
         <div class="h-[60%] flex justify-center items-center w-full flex-col ">

@@ -48,7 +48,7 @@ function onSubmit(e){
     return(
         <main className='h-full flex justify-center items-center flex-col gap-6 px-4 py-8'>
             <h1 className="font-bold text-3xl text-center text-white-text md:text-5xl">{messages[Math.floor(Math.random() * messages.length)]}</h1>
-            <section className='bg-white-surface flex justify-center items-center flex-col w-full max-w-[420px] relative shadow-[0_30px_70px_-25px_rgba(23,26,24,0.28)] rounded-[24px] border border-white-borders p-6 md:p-8'>
+            <section className='bg-white-surface flex justify-center items-center flex-col w-full max-w-105 relative shadow-[0_30px_70px_-25px_rgba(23,26,24,0.28)] rounded-3xl border border-white-borders p-6 md:p-8'>
                 <h1 className="font-semibold text-2xl text-white-text mb-6">{sign ? 'Sign up' : 'Log in'}</h1>
         <form className="flex justify-start items-center gap-4 flex-col w-full" onSubmit={
             handleSubmit(onSubmit)}>
