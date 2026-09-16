@@ -1,18 +1,17 @@
 
-import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { usePage } from '../context/PageContext';
 
 export default function Navbar() {
-    const { users, setUsers } = useAuth();
-    const { pages, createPage, editPage, removePage} = usePage();
+   const { users } = useAuth();
+  const { pages, createPage } = usePage();
 
-    const user = users.find(
-        (user) => user.email === localStorage.getItem('currentUserEmail')
-    );
+  const user = users.find(
+    (user) => user.email === localStorage.getItem("currentUserEmail")
+  );
 
-    const todos = user?.toDo ?? [];
+  const todos = user?.toDo ?? [];
 
     return (
         <aside className="flex justify-around items-start flex-col gap-6 h-[88.38%] w-[14.1%] fixed left-2 bg-white-surface pr-0 text-white-text">
@@ -44,7 +43,7 @@ export default function Navbar() {
 
                 <div className="overflow-auto flex flex-col">
                     {pages.map((page) => (
-                        <NavLink key={page.id} to={`/page/${page.id}`}>
+                        <NavLink key={page.id} to={`/page/${page.id}`} className='font-bold'>
                             {page.name}
                         </NavLink>
                     ))}

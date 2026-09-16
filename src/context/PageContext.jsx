@@ -28,9 +28,9 @@ export function PageProvider({ children }) {
 
     localStorage.setItem("users", JSON.stringify(users));
   }
-
+  
   function deletePage(pageId) {
-
+    setPages(pages.filter((page) => page.id !== pageId));
   }
 
   function editPage() {
