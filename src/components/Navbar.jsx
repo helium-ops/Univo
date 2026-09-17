@@ -5,7 +5,7 @@ import { usePage } from '../context/PageContext';
 
 export default function Navbar() {
    const { users } = useAuth();
-  const { pages, createPage } = usePage();
+   const { createPage } = usePage();
 
   const user = users.find(
     (user) => user.email === localStorage.getItem("currentUserEmail")
@@ -27,7 +27,7 @@ export default function Navbar() {
 
                 <div className="overflow-auto">
                     
-                      <h2 className='font-semibold' >{recentPage.name}</h2>
+                      <h2 className='font-semibold' >{recentPage?.name}</h2>
                     {todos.map((todo) => (
                         <h1 key={todo.id}>
                             {todo.name}
@@ -45,7 +45,7 @@ export default function Navbar() {
                 </h1>
 
                 <div className="overflow-auto flex flex-col">
-                    {pages.map((page) => (
+                    {user.pages.map((page) => (
                         <NavLink key={page.id} to={`/page/${page.id}`} className='font-bold'>
                             {page.name}
                         </NavLink>

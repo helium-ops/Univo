@@ -6,7 +6,9 @@ export const PageContext = createContext(null);
 
 export function PageProvider({ children }) {
 
-  const users = JSON.parse(localStorage.getItem("users") || "[]");
+  const [users, setUsers] = useState(
+    JSON.parse(localStorage.getItem("users")) || []
+);
 
   const user = users.find(
     (user) => user.email === localStorage.getItem("currentUserEmail")
@@ -14,7 +16,7 @@ export function PageProvider({ children }) {
 
   const [pages, setPages] = useState(user?.pages || []);
 
-  function createPage() {
+function createPage() {
     const newPage = {
         name: "Untitled",
         content: "",
@@ -27,16 +29,21 @@ export function PageProvider({ children }) {
         return;
     }
 
-    const updatedPages = [...(user.pages || []), newPage];
+    setUsers(prevUsers => {
+        const updatedUsers = prevUsers.map(u =>
+            u.email === user.email
+                ? {
+                    ...u,
+                    pages: [...(u.pages || []), newPage]
+                }
+                : u
+        );
 
-    user.pages = updatedPages;
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
 
-    setPages(updatedPages);
-
-    localStorage.setItem("users", JSON.stringify(users));
+        return updatedUsers;
+    });
 }
-
-  
   function deletePage(pageId) {
     setPages(pages.filter((page)=> page.id = pageId));
     localStorage.setItem('users', JSON.stringify(users));
@@ -51,6 +58,7 @@ export function PageProvider({ children }) {
       {children}
     </PageContext.Provider>
   );
+
 }
 
 export function usePage() {
