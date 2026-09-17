@@ -16,30 +16,35 @@ export function PageProvider({ children }) {
 
   function createPage() {
     const newPage = {
-      name: "Untitled",
-      content: "",
-      id: Date.now(),
-      settingToggle: false
+        name: "Untitled",
+        content: "",
+        id: Date.now(),
+        settingToggle: false
     };
 
-    setPages((prevPages) => [...prevPages, newPage]);
+    if (!user) {
+        console.log("Current user not found");
+        return;
+    }
 
-    user.pages = [...user.pages, newPage];
+    const updatedPages = [...(user.pages || []), newPage];
+
+    user.pages = updatedPages;
+
+    setPages(updatedPages);
 
     localStorage.setItem("users", JSON.stringify(users));
-  }
+}
+
   
   function deletePage(pageId) {
-    setPages(pages.filter((page) => page.id !== pageId));
   }
 
-  function editPage() {
 
-  }
 
   return (
     <PageContext.Provider
-      value={{ pages, createPage, deletePage, editPage }}
+      value={{ pages, createPage, deletePage }}
     >
       {children}
     </PageContext.Provider>
