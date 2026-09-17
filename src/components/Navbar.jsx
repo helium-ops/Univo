@@ -13,6 +13,8 @@ export default function Navbar() {
 
   const recentPage = [...user.pages].sort((a, b) => b.id - a.id)[0];
 
+  const pages = user?.pages || [];
+
   const todos = user?.toDo ?? [];
 
     return (
@@ -45,7 +47,7 @@ export default function Navbar() {
                 </h1>
 
                 <div className="overflow-auto flex flex-col">
-                    {user.pages.map((page) => (
+                    {pages.map((page) => (
                         <NavLink key={page.id} to={`/page/${page.id}`} className='font-bold'>
                             {page.name}
                         </NavLink>

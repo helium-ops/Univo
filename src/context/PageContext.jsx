@@ -1,14 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
 
 import { createContext, useContext, useState } from "react";
+import { useAuth } from './AuthContext'
 
 export const PageContext = createContext(null);
 
 export function PageProvider({ children }) {
 
-  const [users, setUsers] = useState(
-    JSON.parse(localStorage.getItem("users")) || []
-);
+  const {users, setUsers} = useAuth();
 
   const user = users.find(
     (user) => user.email === localStorage.getItem("currentUserEmail")
@@ -45,7 +44,7 @@ function createPage() {
     });
 }
   function deletePage(pageId) {
-    setPages(pages.filter((page)=> page.id = pageId));
+    setPages(pages.filter((page)=> page.id === pageId));
     localStorage.setItem('users', JSON.stringify(users));
   }
 
