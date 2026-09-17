@@ -11,6 +11,8 @@ export default function Navbar() {
     (user) => user.email === localStorage.getItem("currentUserEmail")
   );
 
+  const recentPage = [...user.pages].sort((a, b) => b.id - a.id)[0];
+
   const todos = user?.toDo ?? [];
 
     return (
@@ -20,11 +22,12 @@ export default function Navbar() {
             <section className="h-[15%] w-full flex justify-around items-start flex-col">
                 <h1 className="font-bold text-3xl">
                     Recents
+                    
                 </h1>
 
                 <div className="overflow-auto">
                     
-
+                      <h2 className='font-semibold' >{recentPage.name}</h2>
                     {todos.map((todo) => (
                         <h1 key={todo.id}>
                             {todo.name}
