@@ -38,6 +38,8 @@ export function PageProvider({ children }) {
 
   
   function deletePage(pageId) {
+    setPages(pages.filter((page)=> page.id = pageId));
+    localStorage.setItem('users', JSON.stringify(users));
   }
 
 
