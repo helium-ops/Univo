@@ -22,10 +22,7 @@ export default function Header() {
                 navigate('/')
             }}>Logout</button>}
 
-            <button
-                className="h-[49%] w-[12%] text-center bg-white-accent rounded-[50%] text-white"            >
-                <FontAwesomeIcon icon={faMoon} />
-            </button>
+            
             </div>
         </header>
     );
