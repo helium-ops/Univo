@@ -2,12 +2,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 export default function Container() {
-  const user = JSON.parse(localStorage.getItem("users")).find(
-  (g) => g.email === localStorage.getItem("currentUserEmail"),
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+
+const user = users.find(
+  (g) => g.email === localStorage.getItem("currentUserEmail")
 );
-   const displayItem = user.pages.reduce((latest, page) =>
-    page.id > latest.id ? page : latest
-  );
+
+const displayItem = user?.pages?.reduce(
+  (latest, page) => (!latest || page.id > latest.id ? page : latest),
+  null
+);
   return (
     <main className="fixed right-2 flex justify-start items-start flex-col h-full w-[85.9%] px-9 py-7">
       <header className="w-full h-[20%]  flex justify-start items-start flex-col gap-4">
@@ -15,7 +19,9 @@ export default function Container() {
         <h3 className="font-bold ">Your universe awaits.</h3>
       </header>
       <section className="w-full h-[40%] flex justify-center items-start flex-col relative">
+        { displayItem ? 
         <div className="flex justify-start items-start flex-col h-60 w-45 bg-white-surface relative shadow-sm rounded-[1vh] py-0 ">
+
           <div className="bg-black-background h-[50%] w-full absolute top-2 right-0 rounded-[1vh] flex justify-start items-end p-1">
             <FontAwesomeIcon
               icon={faPlus}
@@ -23,8 +29,8 @@ export default function Container() {
             />
           </div>
          <h1 className="absolute bottom-2 font-bold p-1 ">{displayItem?.name}</h1>
-        </div>
-          
+        </div> : <h1 className="text-3xl text-white-text text-bold">Make your first page!</h1>
+}
         <div class="h-[60%] flex justify-center items-center w-full flex-col ">
           <header className="flex justify-center items-center flex-col gap-5">
             <h1 className="font-extrabold text-3xl mt-14">

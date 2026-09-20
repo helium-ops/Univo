@@ -13,9 +13,9 @@ export default function Header() {
                 <img
                     src={logo}
                     alt="Unity logo"
-                    className="w-10 h-10 object-contain"
+                    className="w-14 h-15 object-contain"
                 />
-                <h1 className="font-bold text-[2vw] mb-1">Univo</h1>
+                <h1 className="font-bold text-[2.4vw] mb-1">Univo</h1>
             </div>
              <div className="w-[20%] h-[80%] flex justify-end items-center gap-2 pr-2">
             {loggedIn === true && <button className="h-[49%] w-[29%] rounded-[0.8vh] bg-white-accent text-black-text font-bold" onClick={()=>{logout()

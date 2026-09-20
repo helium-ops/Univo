@@ -44,10 +44,20 @@ function createPage() {
     });
 }
   function deletePage(pageId) {
-    setPages(pages.filter((page)=> page.id === pageId));
-    localStorage.setItem('users', JSON.stringify(users));
-  }
+  const updatedUsers = users.map((user) => {
+    if (user.email === localStorage.getItem('currentUserEmail')) {
+      return {
+        ...user,
+        pages: user.pages.filter((page) => page.id !== pageId),
+      };
+    }
 
+    return user;
+  });
+
+  setUsers(updatedUsers);
+  localStorage.setItem("users", JSON.stringify(updatedUsers));
+}
 
 
   return (
